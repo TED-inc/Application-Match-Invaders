@@ -1,4 +1,6 @@
-﻿namespace TEDinc.MatchInvaders.GameLogic
+﻿using TEDinc.MatchInvaders.GameLogic;
+
+namespace TEDinc.MatchInvaders.GameFlow
 {
     public interface IUnitController : IEffectReciverProxy
     {

@@ -1,25 +1,17 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using TEDinc.MatchInvaders.GameFlow;
 
 namespace TEDinc.MatchInvaders.GameLogic
 {
-    [Serializable]
-    public class PlayerController : IUnitController
+    public class PlayerController : UnitControllerBase
     {
-        [SerializeReference]
-        private IUnitModel model;
-        [SerializeReference]
-        private IUnitView view;
-
-        public void Setup(IUnitModel model, IUnitView view)
+        public override void Setup(IUnitModel model, IUnitView view)
         {
-            this.model = model;
-            this.view = view;
+            base.Setup(model, view);
             model.Health.MaxHealthValue = GameConst.Player.MaxHealth;
-            model.Position.WorldPosition = view.Position.WorldPosition;
         }
 
-        public void Update(float deltaTime) =>
+        public override void Update(float deltaTime) =>
             MoveUnit(deltaTime);
 
         private void MoveUnit(float deltaTime)
@@ -51,8 +43,5 @@ namespace TEDinc.MatchInvaders.GameLogic
             Left = -1,
             Right = 1,
         }
-
-        void IEffectReciver.ApplyEffect(IEffect effect) =>
-            model.ApplyEffect(effect);
     }
 }

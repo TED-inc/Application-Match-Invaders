@@ -1,6 +1,7 @@
 ﻿using System;
+using TEDinc.MatchInvaders.GameLogic;
 
-namespace TEDinc.MatchInvaders.GameLogic
+namespace TEDinc.MatchInvaders.GameFlow
 {
     public interface IUnitView : IEffectReciverProxy
     {
@@ -8,5 +9,6 @@ namespace TEDinc.MatchInvaders.GameLogic
         IPositionModel Position { get; }
         void Setup();
         void Destroy();
+        IUnitView Clone();
     }
 }
