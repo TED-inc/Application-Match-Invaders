@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TEDinc.MatchInvaders.GameLogic
 {
     [Serializable]
-    public class PositionModel : IPositionModel
+    public sealed class PositionModel : IPositionModel
     {
         public Vector3 WorldPosition 
         { 

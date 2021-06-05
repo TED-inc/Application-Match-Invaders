@@ -6,7 +6,10 @@ namespace TEDinc.MatchInvaders.GameLogic
     [Serializable]
     public abstract class UnitModel<THealthModel> : IUnitModel where THealthModel : IHealthEffectReciver, new()
     {
-        public IReadHealthEffectReciver Health => health;
+        public IHealthEffectReciver Health => health;
+        IReadHealthEffectReciver IReadUnitModel.Health => health;
+        IWriteHealthEffectReciver IWriteUnitModel.Health => health;
+
         public IPositionModel Position => position;
         IReadPositionModel IReadUnitModel.Position => position;
         IWritePositionModel IWriteUnitModel.Position => position;
