@@ -9,9 +9,9 @@ namespace TEDinc.MatchInvaders.GameFlow
          where TUnitView : Component, IUnitView
     {
         [SerializeField]
-        private TUnitView unitPrototype;
+        protected TUnitView unitPrototype;
         [SerializeField]
-        private Transform unitParent;
+        protected Transform unitParent;
 
         public abstract void Setup();
         public abstract void Update(float deltaTime);

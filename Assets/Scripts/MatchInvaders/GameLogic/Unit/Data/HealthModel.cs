@@ -29,10 +29,19 @@ namespace TEDinc.MatchInvaders.GameLogic
 
         protected virtual Action CreateStrategyExecutor(IEffect effect)
         {
-            if (effect is IDamageEffect)
-                return () => healthValue.Value -= (effect as IDamageEffect).DamageValue;
+            if (!effect.IsFired)
+            {
+                if (effect is IDamageEffect)
+                    return () => healthValue.Value -= (effect as IDamageEffect).DamageValue;
+            }
 
             return ActionExt.GetNullObject();
+        }
+
+        public void SetupHealthValue(int value)
+        {
+            maxHealth = value;
+            healthValue.SetWithoutNotify(value);
         }
     }
 }

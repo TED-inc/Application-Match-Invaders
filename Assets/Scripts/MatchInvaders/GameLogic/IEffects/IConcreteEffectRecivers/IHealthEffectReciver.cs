@@ -18,5 +18,6 @@ namespace TEDinc.MatchInvaders.GameLogic
     {
         IWriteReactiveProperty<int> HealthValue { get; }
         int MaxHealthValue { set; }
+        void SetupHealthValue(int value);
     }
 }

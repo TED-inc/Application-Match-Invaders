@@ -8,7 +8,7 @@ namespace TEDinc.MatchInvaders.GameLogic
         public override void Setup(IUnitModel model, IUnitView view)
         {
             base.Setup(model, view);
-            model.Health.MaxHealthValue = GameConst.Player.MaxHealth;
+            model.Health.SetupHealthValue(GameConst.Player.MaxHealth);
         }
 
         public override void Update(float deltaTime) =>

@@ -1,4 +1,12 @@
-﻿namespace TEDinc.MatchInvaders.GameLogic
+﻿using UnityEngine;
+
+namespace TEDinc.MatchInvaders.GameLogic
 {
-    public interface IEffect { }
+    // TODO : separate to Read and Write, make IsFired reactive
+    public interface IEffect
+    { 
+        bool IsFired { get; set; }
+        IEffect Clone();
+        void SetPhysics(Vector3 position);
+    }
 }

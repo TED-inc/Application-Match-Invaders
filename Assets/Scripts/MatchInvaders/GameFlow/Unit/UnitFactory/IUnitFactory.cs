@@ -2,12 +2,12 @@
 
 namespace TEDinc.MatchInvaders.GameFlow
 {
-    public interface IUnitFactory<TUnitModel, TUnitView> 
-        where TUnitModel : IUnitModel
+    public interface IUnitFactory<TUnitView, TUnitController> 
+        where TUnitController : IUnitController
         where TUnitView : IUnitView
     {
         void Setup(TUnitView unitPrototype);
 
-        (TUnitModel model, TUnitView view) CreateNext();
+        TUnitController CreateNext();
     }
 }

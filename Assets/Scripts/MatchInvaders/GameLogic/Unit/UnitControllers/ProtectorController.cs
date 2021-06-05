@@ -1,5 +1,13 @@
-﻿namespace TEDinc.MatchInvaders.GameLogic
+﻿using TEDinc.MatchInvaders.GameFlow;
+
+namespace TEDinc.MatchInvaders.GameLogic
 {
-    // TODO: protector must control own position, not by UI components
-    public class ProtectorController : UnitControllerBase { }
+    public class ProtectorController : UnitControllerBase 
+    {
+        public override void Setup(IUnitModel model, IUnitView view)
+        {
+            base.Setup(model, view);
+            model.Health.SetupHealthValue(GameConst.Protector.MaxHealth);
+        }
+    }
 }

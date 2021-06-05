@@ -1,12 +1,15 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TEDinc.MatchInvaders.GameLogic;
 
 namespace TEDinc.MatchInvaders.GameFlow
 {
     [Serializable]
-    public sealed class EnemyView : UnitView
+    public sealed class EnemyView : UnitView, IEnemyGroupElement
     {
+        public bool CanShoot;
+
         [SerializeField]
         private Image image;
 

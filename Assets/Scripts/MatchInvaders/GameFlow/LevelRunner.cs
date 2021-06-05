@@ -13,7 +13,7 @@ namespace TEDinc.MatchInvaders.GameFlow
 
         private IUnitSerialization[] unitSerealizations;
 
-        private void Awake()
+        private void Start()
         {
             unitSerealizations = new IUnitSerialization[] {
                 playerSerialization,

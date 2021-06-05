@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 48, y: 35}
+  m_SizeDelta: {x: 30, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4589566581078955064
 CanvasRenderer:
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3386662938922423588, guid: 20612bfef65579a49ac0a10b86dbadc5,
+  m_Sprite: {fileID: 5182299067807867188, guid: 20612bfef65579a49ac0a10b86dbadc5,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -85,11 +85,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6839626917503367981}
   - component: {fileID: 3519638063647646857}
-  - component: {fileID: 1777482507553332716}
+  - component: {fileID: -884341962937819077}
+  - component: {fileID: -1738022557332016155}
   - component: {fileID: 6528631364814680316}
-  - component: {fileID: -6693862882388334486}
+  - component: {fileID: 823845649447897346}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,7 +124,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6554620371838008082}
   m_CullTransparentMesh: 0
---- !u!114 &1777482507553332716
+--- !u!114 &-884341962937819077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,17 +133,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 6554620371838008082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f20e13b71769d67478b5003cd576aec7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fea03f6fccca3245958746b69a2be3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position:
-    id: 0
-  CanShoot: 0
-  image: {fileID: 4523884354189863010}
-  references:
-    version: 1
-    00000000:
-      type: {class: , ns: , asm: }
+--- !u!114 &-1738022557332016155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6554620371838008082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eafc7b537536504bbbaf1a189e042a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: {x: 0, y: 400}
 --- !u!61 &6528631364814680316
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -167,23 +173,26 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 48, y: 35}
+  m_Size: {x: 10, y: 40}
   m_EdgeRadius: 0
---- !u!114 &-6693862882388334486
-MonoBehaviour:
+--- !u!50 &823845649447897346
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6554620371838008082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e01d6c32546081f45bc050cdd08e49ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectPrototype: {fileID: -884341962937819077, guid: 3eeea6aaf88c4974c8b4077a31cc79a2,
-    type: 3}
-  effectSpawnOffset: {x: 0, y: -50, z: 0}
-  maxBulletCount: 5
-  shootProbability: 0.05
-  enemy: {fileID: 1777482507553332716}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 3
