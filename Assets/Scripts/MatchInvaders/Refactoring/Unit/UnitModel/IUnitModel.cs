@@ -3,12 +3,12 @@
     public interface IUnitModel : IReadUnitModel
     {
         void Setup(IUnitSubModel[] subModels);
-        new T GetSubModel<T>() where T : IUnitSubModel;
+        new T GetSubModel<T>(UnitSubModelType subModelType) where T : IUnitSubModel;
     }
 
     public interface IReadUnitModel
     {
-        T GetSubModel<T>() where T : IReadUnitSubModel;
-        bool ContainsSubModel<T>() where T : IReadUnitSubModel;
+        T GetSubModel<T>(UnitSubModelType subModelType) where T : IReadUnitSubModel;
+        bool ContainsSubModel(UnitSubModelType subModelType);
     }
 }
