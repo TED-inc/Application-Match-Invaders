@@ -4,14 +4,14 @@ using UnityEngine;
 namespace TEDinc.Utils.ReactiveProperty
 {
     [Serializable]
-    public class ReactiveProperty<T> : IReactiveProperty<T> where T : IComparable
+    public class ReactiveProperty<T> : IReactiveProperty<T> where T : IEquatable<T>
     {
         public T Value
         {
             get => value;
             set
             {
-                if (this.value.CompareTo(value) != 0) // not equal
+                if (!this.value.Equals(value)) // not equal
                 {
                     this.value = value;
                     OnChange.Invoke(Value);
