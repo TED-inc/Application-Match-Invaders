@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlowOld
 {
     [Serializable]
     public sealed class EnemysGridSerialization : UnitSerializationBase<EnemyView>

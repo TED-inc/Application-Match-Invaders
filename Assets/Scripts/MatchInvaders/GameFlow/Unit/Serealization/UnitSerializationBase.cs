@@ -2,7 +2,7 @@
 using UnityEngine;
 using TEDinc.MatchInvaders.GameLogic;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlowOld
 {
     [Serializable]
     public abstract class UnitSerializationBase<TUnitView> : IUnitSerialization

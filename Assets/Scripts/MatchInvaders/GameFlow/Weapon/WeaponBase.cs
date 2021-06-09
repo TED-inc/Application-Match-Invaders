@@ -2,7 +2,7 @@
 using UnityEngine;
 using TEDinc.MatchInvaders.GameLogic;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlowOld
 {
     [Obsolete("TODO : change this class to interface based system")]
     public abstract class WeaponBase : MonoBehaviour

@@ -32,6 +32,6 @@ namespace TEDinc.MatchInvaders.Unit
             dict[subModelType];
 
         public static UnitSubModelType GetModuleType(Type subModelType) =>
-            dict.First(p => subModelType.IsAssignableFrom(p.Value)).Key;
+            dict.First(p => subModelType.GetInterfaces().Contains(p.Value)).Key;
     }
 }

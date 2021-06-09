@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlowOld
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public sealed class BulletMover : MonoBehaviour

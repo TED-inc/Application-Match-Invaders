@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TEDinc.MatchInvaders.GameLogic;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlowOld
 {
     [Serializable]
     public sealed class EnemyView : UnitView, IEnemyGroupElement

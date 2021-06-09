@@ -27,6 +27,6 @@ namespace TEDinc.MatchInvaders.Effect.Concrete
         }
 
         private void SetPosition(Vector2 position) =>
-            transform.position = position;
+            transform.localPosition = position;
     }
 }

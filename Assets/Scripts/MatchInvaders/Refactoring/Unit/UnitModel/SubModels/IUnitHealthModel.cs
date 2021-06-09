@@ -7,7 +7,6 @@ namespace TEDinc.MatchInvaders.Unit
     {
         new IReactiveProperty<int> HealthValue { get; }
         new IReactiveProperty<bool> IsAlive { get; }
-        void Setup(int healthValue);
     }
 
     public interface IReadUnitHealthModel : IReadUnitSubModel

@@ -9,6 +9,9 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         public int Health => health;
         public float Speed => speed;
         public float PositionLimitXAbs => positionLimitXAbs;
+        public KeyCode MoveLeft => KeyCode.A;
+        public KeyCode MoveRight => KeyCode.D;
+        public KeyCode Shoot => KeyCode.Space;
 
         [SerializeField]
         private int health = 3;
@@ -18,10 +21,13 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         private float positionLimitXAbs = 900;
     }
 
-    public interface IPlayerUnitParams : IUnitFactoryBaseParms
+    public interface IPlayerUnitParams : IUnitFactoryParmsBase
     {
         int Health { get; }
         float Speed { get; } 
         float PositionLimitXAbs { get; }
+        KeyCode MoveLeft { get; }
+        KeyCode MoveRight { get; }
+        KeyCode Shoot { get; }
     }
 }

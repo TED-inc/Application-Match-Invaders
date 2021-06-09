@@ -4,16 +4,17 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 {
     public abstract class BaseUnitController : IUnitController
     {
-        public IReadUnitModel UnitModel { get; private set; }
+        IReadUnitModel IReadUnitController.UnitModel => unitModel;
+        protected IUnitModel unitModel { get; private set; }
 
         public void ApplyEffect(IEffect effect)
         {
-            foreach (IEffectReciver effectReciver in UnitModel.GetEffectSubModels<IEffectReciver>())
+            foreach (IEffectReciver effectReciver in unitModel.GetEffectSubModels<IEffectReciver>())
                 effectReciver.ApplyEffect(effect);
         }
 
-        public void Setup(IUnitModel unitModel) =>
-            UnitModel = unitModel;
+        public virtual void Setup(IUnitModel unitModel) =>
+            this.unitModel = unitModel;
 
         public abstract void Update(float deltaTime);
     }

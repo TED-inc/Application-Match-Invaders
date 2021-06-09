@@ -1,6 +1,6 @@
 ﻿using TEDinc.MatchInvaders.GameLogic;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlowOld
 {
     public interface IUnitController : IEffectReciverProxy
     {

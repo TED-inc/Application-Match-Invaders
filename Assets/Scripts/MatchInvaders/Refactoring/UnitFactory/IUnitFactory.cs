@@ -2,11 +2,17 @@
 
 namespace TEDinc.MatchInvaders.UnitFactory
 {
-    public interface IUnitFactory<TModel, TController>
+    public interface IUnitFactory<TModel, TController> : IUnitFactory
         where TModel : IReadUnitModel
         where TController : IReadUnitController
     {
-        TController Next();
+        new TController Next();
         TController Next(TModel model);
+    }
+
+    public interface IUnitFactory
+    {
+        IReadUnitController Next();
+        IReadUnitController Next(IReadUnitModel model);
     }
 }

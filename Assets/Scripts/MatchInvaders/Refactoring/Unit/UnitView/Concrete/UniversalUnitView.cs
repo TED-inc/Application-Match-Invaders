@@ -33,7 +33,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             if (UnitModel.ContainsSubModel(UnitSubModelType.Position))
             {
                 unitPostionModel = UnitModel.GetSubModel<IReadUnitPostionModel>(UnitSubModelType.Position);
-                transform.position = unitPostionModel.Position.Value;
+                transform.localPosition = unitPostionModel.Position.Value;
                 unitPostionModel.Position.OnChange += OnModelChangePosition;
             }
             if (UnitModel.ContainsSubModel(UnitSubModelType.Health))
@@ -62,7 +62,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         }
 
         private void OnModelChangePosition(Vector2 position) =>
-            transform.position = position;
+            transform.localPosition = position;
 
         private void OnModelChangeIsAlive(bool isAlive)
         {
@@ -74,7 +74,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         private void OnModelSpawnEffect(IEffect effect)
         {
             UniversalEffectSource effectSource = Instantiate(effectSoursePrototype);
-            effectSource.transform.position = transform.position + (Vector3)effectSpawnOffset;
+            effectSource.transform.localPosition = transform.localPosition + (Vector3)effectSpawnOffset;
             effectSource.Setup(effect, unitWeaponModel.EffectPosition);
         }
 

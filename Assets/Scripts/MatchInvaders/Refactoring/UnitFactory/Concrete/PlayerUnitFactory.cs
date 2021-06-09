@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TEDinc.MatchInvaders.Unit;
 using TEDinc.MatchInvaders.Unit.Concrete;
 
 namespace TEDinc.MatchInvaders.UnitFactory.Concrete
@@ -10,8 +11,8 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
         public PlayerUnitController Next()
         {
             PlayerUnitModel model = new PlayerUnitModel();
-            // TODO: model.Setup();
-            return Next();
+            model.Setup(new UnitPostionModel(Vector2.zero));
+            return Next(model);
         }
 
         public PlayerUnitController Next(PlayerUnitModel model)
@@ -21,6 +22,12 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
             GameObject.Instantiate(unitParams.ViewPrototype, unitParams.Parent).Setup(model, controller);
             return controller;
         }
+
+        IReadUnitController IUnitFactory.Next() =>
+            Next();
+
+        IReadUnitController IUnitFactory.Next(IReadUnitModel model) =>
+            Next(model as PlayerUnitModel);
 
         public PlayerUnitFactory(IPlayerUnitParams unitParams) =>
             this.unitParams = unitParams;

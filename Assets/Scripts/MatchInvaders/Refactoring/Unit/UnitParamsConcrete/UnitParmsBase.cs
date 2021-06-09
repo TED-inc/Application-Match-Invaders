@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TEDinc.MatchInvaders.Unit.Concrete
 {
     [Serializable]
-    public abstract class UnitParmsBase : IUnitFactoryBaseParms
+    public abstract class UnitParmsBase : IUnitFactoryParmsBase
     {
         public Transform Parent => parent;
         public UniversalUnitView ViewPrototype => viewPrototype;
@@ -15,7 +15,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         private UniversalUnitView viewPrototype;
     }
 
-    public interface IUnitFactoryBaseParms
+    public interface IUnitFactoryParmsBase
     {
         Transform Parent { get; }
         UniversalUnitView ViewPrototype { get; }

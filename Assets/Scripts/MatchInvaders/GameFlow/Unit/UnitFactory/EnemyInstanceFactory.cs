@@ -3,7 +3,7 @@ using UnityEngine;
 using TEDinc.MatchInvaders.GameLogic;
 using Random = System.Random;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlowOld
 {
     public class EnemyInstanceFactory : IUnitFactory<EnemyView, EnemyController>
     {

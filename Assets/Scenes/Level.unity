@@ -235,7 +235,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -640,31 +640,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1161636572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 864b827b5f7ece74fb8f01ef1c19779d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8448db77ccd25a940954711c53a7feb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSerialization:
-    unitPrototype: {fileID: 5470306186391752920, guid: dc31cab34e45d9249aeb634052e3b0f0,
+  playerParams:
+    parent: {fileID: 1233856158}
+    viewPrototype: {fileID: -4742730970724985080, guid: d4ce77fd8fb0f634490df9f6827c49ec,
       type: 3}
-    unitParent: {fileID: 1233856158}
-    playerController:
-      id: 0
-  protectorsSerialization:
-    unitPrototype: {fileID: 5470306186391752920, guid: c54b6fe3f55e6d5419284303b2da4498,
-      type: 3}
-    unitParent: {fileID: 559631409}
-    layoutGroup: {fileID: 559631410}
-    protectorsCount: 4
-  enemysGridSerialization:
-    unitPrototype: {fileID: 1777482507553332716, guid: 4aac3f3c7118be2479c59a1e0fbfef05,
-      type: 3}
-    unitParent: {fileID: 1353151074}
-    layoutGroup: {fileID: 1353151075}
-    gridSize: {x: 17, y: 6}
-  references:
-    version: 1
-    00000000:
-      type: {class: , ns: , asm: }
+    health: 3
+    speed: 250
+    positionLimitXAbs: 900
 --- !u!4 &1161636574
 Transform:
   m_ObjectHideFlags: 0
