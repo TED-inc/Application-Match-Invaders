@@ -1,14 +1,15 @@
-﻿namespace TEDinc.MatchInvaders.Unit
+﻿using TEDinc.MatchInvaders.Effect;
+
+namespace TEDinc.MatchInvaders.Unit
 {
     public interface IUnitController : IReadUnitController
     {
-        void Setup(IUnitModel UnitModel, IUnitView unitView);
+        void Setup(IUnitModel unitModel);
     }
 
-    public interface IReadUnitController
+    public interface IReadUnitController : IEffectReciverProxy
     {
         IReadUnitModel UnitModel { get; }
-        IReadUnitView UnitView { get; }
         void Update(float deltaTime);
     }
 }

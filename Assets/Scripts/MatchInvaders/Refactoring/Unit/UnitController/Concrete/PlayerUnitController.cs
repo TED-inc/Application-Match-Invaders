@@ -1,23 +1,15 @@
-﻿using System;
-using UnityEngine;
-
-namespace TEDinc.MatchInvaders.Unit.Concrete
+﻿namespace TEDinc.MatchInvaders.Unit.Concrete
 {
-    [Serializable]
-    public sealed class PlayerUnitController : IUnitController
+    public sealed class PlayerUnitController : BaseUnitController
     {
-        public IReadUnitModel UnitModel => throw new NotImplementedException();
+        private readonly IPlayerUnitParams unitParams;
 
-        public IReadUnitView UnitView => throw new NotImplementedException();
-
-        public void Setup(IUnitModel UnitModel, IUnitView unitView)
+        public override void Update(float deltaTime)
         {
-            throw new NotImplementedException();
+            // TODO: move and shoot
         }
 
-        public void Update(float deltaTime)
-        {
-            throw new NotImplementedException();
-        }
+        public PlayerUnitController(IPlayerUnitParams unitParams) =>
+            this.unitParams = unitParams;
     }
 }

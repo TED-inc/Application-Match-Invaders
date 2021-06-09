@@ -1,4 +1,4 @@
-﻿namespace TEDinc.MatchInvaders.Effect
+﻿namespace TEDinc.MatchInvaders.Effect.Concrete
 {
     public interface IDamageEffect : IEffect
     {
