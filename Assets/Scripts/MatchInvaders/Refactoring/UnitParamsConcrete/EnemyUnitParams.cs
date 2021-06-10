@@ -10,23 +10,27 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         public float PositionLimitXAbs => positionLimitXAbs;
         public int MaxBulletCount => maxBulletCount;
         public float ShootAttemtProbability => shootAttemtProbability;
-        public int GridSizeX => gridZize.x;
-        public int GridSizeY => gridZize.y;
+        public int GridSizeX => gridSize.x;
+        public int GridSizeY => gridSize.y;
         public int GroupCount => groupCount;
         public Behaviour GridLayout => layoutGroup;
+        public int MaxChindedKill => maxChainedKill;
 
         [SerializeField, Min(0f)]
         private float positionLimitXAbs = 50;
         [SerializeField, Min(0)]
         private int maxBulletCount = 5;
+        [SerializeField, Min(0)]
+        private int maxChainedKill = 4;
         [SerializeField, Range(0f, 1f)]
         private float shootAttemtProbability = 0.05f;
+        
 
         [Header("Grid")]
-        [SerializeField, Min(1)]
-        private int groupCount = 4;
+        [SerializeField, Range(1, GameConst.MaxEnenmyGroupsCount)]
+        private int groupCount = GameConst.MaxEnenmyGroupsCount;
         [SerializeField]
-        private Vector2Int gridZize = new Vector2Int(17, 6);
+        private Vector2Int gridSize = new Vector2Int(17, 6);
         [SerializeField]
         private AnimationCurve aliveCountToSpeed = new AnimationCurve(new Keyframe(0f, 100f), new Keyframe(100f, 30f));
         [SerializeField]
@@ -50,7 +54,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         float SpeedByCount(int aliveCount);
         float MoveStartDelayByLine(int lineNumber);
         int GroupCount { get; }
-        
+        int MaxChindedKill { get; }
     }
 
     public interface IGridParams

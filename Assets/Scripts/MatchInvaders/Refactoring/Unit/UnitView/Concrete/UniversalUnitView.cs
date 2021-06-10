@@ -48,7 +48,6 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             }
             if (UnitModel.ContainsSubModel(UnitSubModelType.Group))
                 SetGroup(UnitModel.GetSubModel<IReadUnitGroupModel>(UnitSubModelType.Group).GroupId);
-
         }
 
         private void OnDestroy()

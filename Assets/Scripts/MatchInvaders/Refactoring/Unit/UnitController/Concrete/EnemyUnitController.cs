@@ -12,7 +12,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 
         private readonly IEnemyUnitParams unitParams;
         private new IEnemyUnitModel unitModel;
-        private bool killedByGrid = false;
+        private bool canBeKilledByGrid = true;
 
         public override void Update(float deltaTime)
         {
@@ -24,12 +24,17 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             base.Setup(unitModel);
             this.unitModel = (IEnemyUnitModel)unitModel;
             this.unitModel.HealthModel.IsAlive.OnChange += OnDeath;
+            canBeKilledByGrid = this.unitModel.HealthModel.IsAlive.Value;
         }
 
-        void IUnitAtGrid.KillByGrid()
+        bool IUnitAtGrid.KillByGrid()
         {
-            killedByGrid = true;
+            if (!canBeKilledByGrid)
+                return false;
+
+            canBeKilledByGrid = false;
             unitModel.HealthModel.HealthValue.Value = 0;
+            return true;
         }
 
         private void OnDeath(bool isAlive)
@@ -38,8 +43,11 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             {
                 unitModel.HealthModel.IsAlive.OnChange -= OnDeath;
 
-                if (!killedByGrid)
+                if (canBeKilledByGrid)
+                {
+                    canBeKilledByGrid = false;
                     OnDeathFromEffect.Invoke(this);
+                }
             }
         }
 
@@ -60,6 +68,6 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         int IndexY { get; }
         bool CanShoot { get; }
         int GroupId { get; }
-        void KillByGrid();
+        bool KillByGrid();
     }
 }

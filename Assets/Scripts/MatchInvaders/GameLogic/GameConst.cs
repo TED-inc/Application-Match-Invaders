@@ -1,8 +1,10 @@
-﻿namespace TEDinc.MatchInvaders.GameLogic
+﻿using TEDinc.MatchInvaders.GameLogic;
+namespace TEDinc.MatchInvaders
 {
     public static class GameConst
     {
         public static readonly IUnitModel MockUnit = new MockUnitModel();
+        public const int MaxEnenmyGroupsCount = 4;
         // TODO : remove everything below from here to config file
         public static class Player
         {
