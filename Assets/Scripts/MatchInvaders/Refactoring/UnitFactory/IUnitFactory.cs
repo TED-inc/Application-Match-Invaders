@@ -14,5 +14,7 @@ namespace TEDinc.MatchInvaders.UnitFactory
     {
         IReadUnitController Next();
         IReadUnitController Next(IReadUnitModel model);
+        bool IsComplete();
+        void Reset();
     }
 }

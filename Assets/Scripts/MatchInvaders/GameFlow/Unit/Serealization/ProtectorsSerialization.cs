@@ -19,7 +19,7 @@ namespace TEDinc.MatchInvaders.GameFlowOld
             for (int i = 0; i < protectorsCount; i++)
                 CreateInstance(new ProtectorController(), new ProtectorModel());
 
-            CoroutineRunner.instance.StartCoroutine(DisableLayoutGroup());
+            CoroutineRunner.Instance.StartCoroutine(DisableLayoutGroup());
 
             IEnumerator DisableLayoutGroup()
             {

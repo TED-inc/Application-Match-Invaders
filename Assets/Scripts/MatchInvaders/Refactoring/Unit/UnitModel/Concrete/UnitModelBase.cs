@@ -25,7 +25,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             (T)subModels[subModelType];
 
         public IEnumerable<T> GetEffectSubModels<T>() where T : IEffectReciver =>
-            (IEnumerable<T>)effectSubModels.GetEnumerator();
+            (IEnumerable<T>)(IEnumerable<IEffectReciver>)effectSubModels;
 
         public void Setup(params IUnitSubModel[] subModels)
         {
@@ -33,7 +33,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
                 subModelsSerialization = subModels;
 
             this.subModels = subModelsSerialization.ToDictionary(m => UnitSubModelTypeExt.GetModuleType(m.GetType()));
-            effectSubModels = subModelsSerialization.Where(m => m.GetType().IsAssignableFrom(typeof(IEffectReciver))).Select(m => (IEffectReciver)m).ToArray();
+            effectSubModels = subModelsSerialization.Where(m => m.GetType().GetInterfaces().Contains(typeof(IEffectReciver))).Select(m => (IEffectReciver)m).ToArray();
         }
     }
 }

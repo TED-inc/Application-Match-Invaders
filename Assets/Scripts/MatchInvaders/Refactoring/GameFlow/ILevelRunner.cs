@@ -1,8 +1,10 @@
-﻿namespace TEDinc.MatchInvaders.GameFlow
+﻿using TEDinc.Utils.ReactiveProperty;
+
+namespace TEDinc.MatchInvaders.GameFlow
 {
     public interface ILevelRunner
     {
-        LevelState LevelState { get; }
+        IReadReactiveProperty<LevelState> CurrentLevelState { get; }
         void LevelStart();
         void LevelEnd();
         void LevelReStart();

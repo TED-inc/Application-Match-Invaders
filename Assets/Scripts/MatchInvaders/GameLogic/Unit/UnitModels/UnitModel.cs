@@ -25,7 +25,7 @@ namespace TEDinc.MatchInvaders.GameLogic
         [SerializeReference]
         private IPositionModel position = new PositionModel();
         [SerializeField]
-        private ReactivePropertyBool isAlive = new ReactivePropertyBool();
+        private ReactivePropertyBool isAlive = new ReactivePropertyBool(true);
 
         public void ApplyEffect(IEffect effect) =>
             Health.ApplyEffect(effect);

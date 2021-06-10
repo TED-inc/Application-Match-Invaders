@@ -12,7 +12,7 @@ namespace TEDinc.MatchInvaders.Effect.Concrete
 
         public FiredEffect()
         {
-            IsFired = new ReactiveProperty<bool>(true);
+            IsFired = new ReactivePropertyBool(true);
         }
     }
 }

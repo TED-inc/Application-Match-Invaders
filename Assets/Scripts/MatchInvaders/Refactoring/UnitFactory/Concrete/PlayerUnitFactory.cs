@@ -5,20 +5,25 @@ using TEDinc.MatchInvaders.Effect.Concrete;
 
 namespace TEDinc.MatchInvaders.UnitFactory.Concrete
 {
-    public sealed class PlayerUnitFactory : IUnitFactory<PlayerUnitModel, PlayerUnitController>
+    public sealed class PlayerUnitFactory : IUnitFactory<IPlayerUnitModel, IPlayerUnitController>
     {
         private readonly IPlayerUnitParams unitParams;
+        private bool isPlayerSpawned = false;
 
-        public PlayerUnitController Next()
+        public IPlayerUnitController Next()
         {
-            PlayerUnitModel model = new PlayerUnitModel();
-            model.Setup(new UnitPostionModel(Vector2.zero), new UnitWeaponModel(new BulletEffect()));
+            IPlayerUnitModel model = new PlayerUnitModel();
+            model.Setup(
+                new UnitPostionModel(Vector2.zero),
+                new UnitWeaponModel(new BulletEffect()),
+                new UnitHealthModel(unitParams.Health));
             return Next(model);
         }
 
-        public PlayerUnitController Next(PlayerUnitModel model)
+        public IPlayerUnitController Next(IPlayerUnitModel model)
         {
-            PlayerUnitController controller = new PlayerUnitController(unitParams);
+            isPlayerSpawned = true;
+            IPlayerUnitController controller = new PlayerUnitController(unitParams);
             controller.Setup(model);
             GameObject.Instantiate(unitParams.ViewPrototype, unitParams.Parent).Setup(model, controller);
             return controller;
@@ -28,7 +33,13 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
             Next();
 
         IReadUnitController IUnitFactory.Next(IReadUnitModel model) =>
-            Next(model as PlayerUnitModel);
+            Next(model as IPlayerUnitModel);
+
+        public bool IsComplete() =>
+            isPlayerSpawned;
+
+        public void Reset() =>
+            isPlayerSpawned = false;
 
         public PlayerUnitFactory(IPlayerUnitParams unitParams) =>
             this.unitParams = unitParams;

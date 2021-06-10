@@ -5,7 +5,7 @@ namespace TEDinc.MatchInvaders.Effect.Concrete
     public sealed class BulletEffect : IDamageEffect
     {
         public int DamageValue { get; private set; }
-        public IReactiveProperty<bool> IsFired { get; private set; } = new ReactivePropertyBool();
+        public IReactiveProperty<bool> IsFired { get; private set; } = new ReactivePropertyBool(false);
         IReadReactiveProperty<bool> IReadEffect.IsFired => IsFired;
 
         public IEffect Clone() =>

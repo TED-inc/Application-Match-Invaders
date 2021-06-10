@@ -1,33 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TEDinc.MatchInvaders.Unit;
 using TEDinc.MatchInvaders.Unit.Concrete;
 using TEDinc.MatchInvaders.UnitFactory;
 using TEDinc.MatchInvaders.UnitFactory.Concrete;
+using TEDinc.Utils.ReactiveProperty;
 
 namespace TEDinc.MatchInvaders.GameFlow
 {
     public sealed class LevelRunner : ILevelRunner
     {
-        public LevelState LevelState { get; private set; } = LevelState.WaitForStart;
+        public IReadReactiveProperty<LevelState> CurrentLevelState => levelState;
 
-        private readonly IPlayerUnitParams playerParms;
-        private readonly IUnitFactory playerFactory;
+        private readonly IUnitFactory[] unitFactories;
         private readonly List<IReadUnitController> unitControllers = new List<IReadUnitController>();
+        private readonly IReactiveProperty<LevelState> levelState =
+            new ReactiveProperty<LevelState>(LevelState.WaitForStart);
 
         public void LevelStart()
         {
-            if (LevelState != LevelState.WaitForStart)
+            if (levelState.Value != LevelState.WaitForStart)
                 return;
 
-            unitControllers.Add(playerFactory.Next());
-            LevelState = LevelState.Running;
+            foreach (IUnitFactory unitFactory in unitFactories)
+            {
+                unitFactory.Reset();
+                while (!unitFactory.IsComplete())
+                    unitControllers.Add(unitFactory.Next());
+            }
+            levelState.Value = LevelState.Running;
         }
 
         public void LevelEnd()
         {
             unitControllers.Clear();
-            LevelState = LevelState.WaitForStart;
+            levelState.Value = LevelState.WaitForStart;
         }
 
         public void LevelReStart()
@@ -38,23 +44,24 @@ namespace TEDinc.MatchInvaders.GameFlow
 
         public void LevelUpdate(float deltaTime)
         {
-            if (LevelState == LevelState.Running)
+            if (levelState.Value == LevelState.Running)
                 unitControllers.ForEach(u => u.Update(deltaTime));
         }
 
         public void LevelSwithPause()
         {
-            if (LevelState == LevelState.Running)
-                LevelState = LevelState.Paused;
-            else if (LevelState == LevelState.Paused)
-                LevelState = LevelState.Running;
+            if (levelState.Value == LevelState.Running)
+                levelState.Value = LevelState.Paused;
+            else if (levelState.Value == LevelState.Paused)
+                levelState.Value = LevelState.Running;
         }
 
-        public LevelRunner(IPlayerUnitParams playerParms)
+        public LevelRunner(IPlayerUnitParams playerParams, IEnemyUnitParams enemyParams)
         {
-            this.playerParms = playerParms;
-
-            playerFactory = new PlayerUnitFactory(playerParms);
+            unitFactories = new IUnitFactory[] { 
+                new PlayerUnitFactory(playerParams),
+                new EnemyUnitFactory(new EnemyGridController(enemyParams), enemyParams),
+            };
         }
     }
 }

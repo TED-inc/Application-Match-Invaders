@@ -25,7 +25,7 @@ namespace TEDinc.MatchInvaders.GameFlowOld
                 for (int y = 0; y < unitControllers.GetLength(1); y++)
                     unitControllers[x, y] = factory.CreateNext();
 
-            CoroutineRunner.instance.StartCoroutine(DisableLayoutGroup());
+            CoroutineRunner.Instance.StartCoroutine(DisableLayoutGroup());
 
             IEnumerator DisableLayoutGroup()
             {

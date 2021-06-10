@@ -20,7 +20,7 @@ namespace TEDinc.MatchInvaders.GameLogic
         int IWriteHealthEffectReciver.MaxHealthValue { set => maxHealth = value; }
 
         [SerializeField]
-        private ReactivePropertyInt healthValue = new ReactivePropertyInt();
+        private ReactivePropertyInt healthValue = new ReactivePropertyInt(1);
         [SerializeField]
         private int maxHealth = 1;
 

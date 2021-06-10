@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 70, y: 40}
+  m_SizeDelta: {x: 55, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4589566581078955064
 CanvasRenderer:
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6128299156075563123, guid: 20612bfef65579a49ac0a10b86dbadc5,
+  m_Sprite: {fileID: 3386662938922423588, guid: 20612bfef65579a49ac0a10b86dbadc5,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: -4742730970724985080}
   - component: {fileID: 9161870544482690811}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f405d6701517a4ba805ef5114a57ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupImage: {fileID: 0}
-  effectSpawnOffset: {x: 0, y: 50}
+  groupImage: {fileID: 4523884354189863010}
+  effectSpawnOffset: {x: 0, y: -50}
   effectSoursePrototype: {fileID: 657606889254556815, guid: ab9ca916e0e71054ebbd7892a80dd2ac,
     type: 3}
 --- !u!61 &9161870544482690811
@@ -162,5 +162,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 70, y: 40}
+  m_Size: {x: 55, y: 40}
   m_EdgeRadius: 0

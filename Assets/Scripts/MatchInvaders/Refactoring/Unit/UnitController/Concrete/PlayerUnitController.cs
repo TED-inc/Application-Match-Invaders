@@ -2,7 +2,7 @@
 
 namespace TEDinc.MatchInvaders.Unit.Concrete
 {
-    public sealed class PlayerUnitController : BaseUnitController
+    public sealed class PlayerUnitController : BaseUnitController, IPlayerUnitController
     {
         private readonly IPlayerUnitParams unitParams;
         private new IPlayerUnitModel unitModel;
@@ -41,4 +41,6 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         public PlayerUnitController(IPlayerUnitParams unitParams) =>
             this.unitParams = unitParams;
     }
+
+    public interface IPlayerUnitController : IUnitController { }
 }
