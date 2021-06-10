@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TEDinc.MatchInvaders.Unit;
 using TEDinc.MatchInvaders.Unit.Concrete;
+using TEDinc.MatchInvaders.Effect.Concrete;
 
 namespace TEDinc.MatchInvaders.UnitFactory.Concrete
 {
@@ -11,7 +12,7 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
         public PlayerUnitController Next()
         {
             PlayerUnitModel model = new PlayerUnitModel();
-            model.Setup(new UnitPostionModel(Vector2.zero));
+            model.Setup(new UnitPostionModel(Vector2.zero), new UnitWeaponModel(new BulletEffect()));
             return Next(model);
         }
 

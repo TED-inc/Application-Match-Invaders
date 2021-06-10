@@ -135,8 +135,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groupImage: {fileID: 0}
-  effectSpawnOffset: {x: 0, y: 0}
-  effectSoursePrototype: {fileID: 0}
+  effectSpawnOffset: {x: 0, y: 50}
+  effectSoursePrototype: {fileID: 657606889254556815, guid: ab9ca916e0e71054ebbd7892a80dd2ac,
+    type: 3}
 --- !u!61 &9161870544482690811
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -7,12 +7,13 @@ namespace TEDinc.MatchInvaders.Unit
 {
     public interface IUnitWeaponModel : IReadUnitWeaponModel, IUnitSubModel
     {
-        new IReactiveProperty<Vector2> EffectPosition { get; }
+        new IEffect CurrentEffect { get; }
+        void Shoot();
     }
 
     public interface IReadUnitWeaponModel : IReadUnitSubModel
     {
-        IReadReactiveProperty<Vector2> EffectPosition { get; }
+        IReadEffect CurrentEffect { get; }
         event Action<IEffect> OnSpawnEffect;
     }
 }

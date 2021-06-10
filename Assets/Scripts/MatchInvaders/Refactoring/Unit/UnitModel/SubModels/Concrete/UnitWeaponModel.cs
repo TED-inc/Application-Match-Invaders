@@ -1,20 +1,31 @@
 ﻿using System;
 using UnityEngine;
 using TEDinc.MatchInvaders.Effect;
+using TEDinc.MatchInvaders.Effect.Concrete;
 using TEDinc.Utils.ReactiveProperty;
 
 namespace TEDinc.MatchInvaders.Unit.Concrete
 {
-    public class UnitWeaponModel : IUnitWeaponModel
+    public sealed class UnitWeaponModel : IUnitWeaponModel
     {
-        public IReactiveProperty<Vector2> EffectPosition => throw new NotImplementedException();
-        IReadReactiveProperty<Vector2> IReadUnitWeaponModel.EffectPosition => throw new NotImplementedException();
-
         public event Action<IEffect> OnSpawnEffect = ActionExt.GetNullObject<IEffect>();
+        public IEffect CurrentEffect { get; private set; } = new FiredEffect();
+        IReadEffect IReadUnitWeaponModel.CurrentEffect => CurrentEffect;
 
-        public UnitWeaponModel(IEffect effectPrototype, Vector2 effectSpawnOffset)
+        private readonly IEffect effectPrototype;
+
+        public void Shoot()
         {
-            throw new NotImplementedException();
+            if (CurrentEffect.IsFired.Value)
+            {
+                CurrentEffect = effectPrototype.Clone();
+                OnSpawnEffect.Invoke(CurrentEffect);
+            }
+        }
+
+        public UnitWeaponModel(IEffect effectPrototype)
+        {
+            this.effectPrototype = effectPrototype;
         }
     }
 }
