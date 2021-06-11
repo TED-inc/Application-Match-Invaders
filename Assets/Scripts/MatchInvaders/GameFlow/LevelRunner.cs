@@ -1,34 +1,67 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using TEDinc.MatchInvaders.Unit;
+using TEDinc.MatchInvaders.Unit.Concrete;
+using TEDinc.MatchInvaders.UnitFactory;
+using TEDinc.MatchInvaders.UnitFactory.Concrete;
+using TEDinc.Utils.ReactiveProperty;
 
 namespace TEDinc.MatchInvaders.GameFlow
 {
-    public sealed class LevelRunner : MonoBehaviour
+    public sealed class LevelRunner : ILevelRunner
     {
-        [SerializeField]
-        private PlayerSerialization playerSerialization;
-        [SerializeField]
-        private ProtectorsSerialization protectorsSerialization;
-        [SerializeField]
-        private EnemysGridSerialization enemysGridSerialization;
+        public IReadReactiveProperty<LevelState> CurrentLevelState => levelState;
 
-        private IUnitSerialization[] unitSerealizations;
+        private readonly IUnitFactory[] unitFactories;
+        private readonly List<IReadUnitController> unitControllers = new List<IReadUnitController>();
+        private readonly IReactiveProperty<LevelState> levelState =
+            new ReactiveProperty<LevelState>(LevelState.WaitForStart);
 
-        private void Start()
+        public void LevelStart()
         {
-            unitSerealizations = new IUnitSerialization[] {
-                playerSerialization,
-                protectorsSerialization,
-                enemysGridSerialization,
-            };
+            if (levelState.Value != LevelState.WaitForStart)
+                return;
 
-            foreach (IUnitSerialization unitSerealization in unitSerealizations)
-                unitSerealization.Setup();
+            foreach (IUnitFactory unitFactory in unitFactories)
+            {
+                unitFactory.Reset();
+                while (!unitFactory.IsComplete())
+                    unitControllers.Add(unitFactory.Next());
+            }
+            levelState.Value = LevelState.Running;
         }
 
-        private void Update()
+        public void LevelEnd()
         {
-            foreach (IUnitSerialization unitSerealization in unitSerealizations)
-                unitSerealization.Update(Time.deltaTime);
+            unitControllers.Clear();
+            levelState.Value = LevelState.WaitForStart;
+        }
+
+        public void LevelReStart()
+        {
+            LevelEnd();
+            LevelStart();
+        }
+
+        public void LevelUpdate(float deltaTime)
+        {
+            if (levelState.Value == LevelState.Running)
+                unitControllers.ForEach(u => u.Update(deltaTime));
+        }
+
+        public void LevelSwithPause()
+        {
+            if (levelState.Value == LevelState.Running)
+                levelState.Value = LevelState.Paused;
+            else if (levelState.Value == LevelState.Paused)
+                levelState.Value = LevelState.Running;
+        }
+
+        public LevelRunner(IPlayerUnitParams playerParams, IEnemyUnitParams enemyParams)
+        {
+            unitFactories = new IUnitFactory[] { 
+                new PlayerUnitFactory(playerParams),
+                new EnemyUnitFactory(new EnemyGridController(enemyParams), enemyParams),
+            };
         }
     }
 }

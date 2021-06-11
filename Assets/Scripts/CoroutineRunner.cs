@@ -2,13 +2,13 @@
 
 public sealed class CoroutineRunner : MonoBehaviour
 {
-    public static CoroutineRunner instance { get; private set; }
+    public static CoroutineRunner Instance { get; private set; }
 
     private void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
             Destroy(gameObject);
         else
-            instance = this;
+            Instance = this;
     }
 }
