@@ -9,7 +9,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
     {
         public float PositionLimitXAbs => positionLimitXAbs;
         public int MaxBulletCount => maxBulletCount;
-        public float ShootAttemtProbability => shootAttemtProbability;
+        public float ShootAttemtProbability => shootPerSecProbability;
         public int GridSizeX => gridSize.x;
         public int GridSizeY => gridSize.y;
         public int GroupCount => groupCount;
@@ -18,13 +18,21 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 
         [SerializeField, Min(0f)]
         private float positionLimitXAbs = 50;
-        [SerializeField, Min(0)]
+        [SerializeField]
+        private AnimationCurve positionByTime = new AnimationCurve(
+            new Keyframe(0f, 0f),
+            new Keyframe(0.25f, 1f),
+            new Keyframe(0.5f, 0f),
+            new Keyframe(0.75f, -1f),
+            new Keyframe(1f, 0f));
+
+        [Header("Shooting")]
+        [SerializeField, Min(0f)]
         private int maxBulletCount = 5;
-        [SerializeField, Min(0)]
+        [SerializeField, Min(0f)]
         private int maxChainedKill = 4;
-        [SerializeField, Range(0f, 1f)]
-        private float shootAttemtProbability = 0.05f;
-        
+        [SerializeField, Min(0f)]
+        private float shootPerSecProbability = 0.05f;
 
         [Header("Grid")]
         [SerializeField, Range(1, GameConst.MaxEnenmyGroupsCount)]
@@ -44,15 +52,23 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 
         public float MoveStartDelayByLine(int lineNumber) =>
             lineIndexToMoveDelay.Evaluate(lineNumber);
+
+        public float XPosByTimeStep(float f) =>
+            positionByTime.Evaluate(f);
     }
 
-    public interface IEnemyUnitParams : IUnitFactoryParmsBase, IGridParams
+    public interface IEnemyUnitParams : IUnitFactoryParmsBase, IGridParams, IEnemyGrid
     {
         float PositionLimitXAbs { get; }
         int MaxBulletCount { get; }
         float ShootAttemtProbability { get; }
         float SpeedByCount(int aliveCount);
         float MoveStartDelayByLine(int lineNumber);
+        float XPosByTimeStep(float f);
+    }
+
+    public interface IEnemyGrid
+    {
         int GroupCount { get; }
         int MaxChindedKill { get; }
     }

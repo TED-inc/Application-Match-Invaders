@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groupImage: {fileID: 4523884354189863010}
   effectSpawnOffset: {x: 0, y: -50}
+  effectSpawnDirection: {x: 0, y: -1}
   effectSoursePrototype: {fileID: 657606889254556815, guid: ab9ca916e0e71054ebbd7892a80dd2ac,
     type: 3}
 --- !u!61 &9161870544482690811

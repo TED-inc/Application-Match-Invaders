@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TEDinc.MatchInvaders.Unit.Concrete;
+using TEDinc.MatchInvaders.Effect.Concrete;
 using TEDinc.Utils.ReactiveProperty;
 
 namespace TEDinc.MatchInvaders.GameFlow
@@ -44,9 +45,9 @@ namespace TEDinc.MatchInvaders.GameFlow
         private void DestoySpawnedUnits(LevelState levelState)
         {
             if (levelState == LevelState.WaitForStart)
-                foreach (var paramBase in new IUnitFactoryParmsBase[] { playerParams, enemysParams })
-                    for (int i = 0; i < paramBase.Parent.childCount; i++)
-                        Destroy(paramBase.Parent.GetChild(i).gameObject);
+                foreach (var parent in new[] { playerParams.Parent, enemysParams.Parent, EffectSourceParent.Instance })
+                    for (int i = 0; i < parent.childCount; i++)
+                        Destroy(parent.GetChild(i).gameObject);
         }
     }
 }

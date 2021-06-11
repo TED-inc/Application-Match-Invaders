@@ -13,6 +13,7 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
         private readonly IUnitsGridController unitsGridController;
         private readonly IEnemyUnitParams unitParams;
         private int spawnedCount = 0;
+        private bool isComplete = false;
 
         public IEnemyUnitController Next()
         {
@@ -44,8 +45,14 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
 
         public bool IsComplete()
         {
-            CoroutineRunner.Instance.StartCoroutine(DisableGridLayout());
-            return spawnedCount >= unitParams.GridSizeX * unitParams.GridSizeY;
+            bool checkCompelte = spawnedCount >= unitParams.GridSizeX * unitParams.GridSizeY;
+            if (checkCompelte != isComplete)
+            {
+                isComplete = checkCompelte;
+                CoroutineRunner.Instance.StartCoroutine(DisableGridLayout());
+                unitsGridController.UpdateShootingAbility();
+            }
+            return checkCompelte;
 
             IEnumerator DisableGridLayout()
             {
@@ -57,6 +64,8 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
         {
             spawnedCount = 0;
             unitParams.GridLayout.enabled = true;
+            isComplete = false;
+            unitsGridController.Reset();
         }
 
 

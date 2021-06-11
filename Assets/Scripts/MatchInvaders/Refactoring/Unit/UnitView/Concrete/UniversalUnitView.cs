@@ -20,6 +20,8 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         [SerializeField]
         private Vector2 effectSpawnOffset;
         [SerializeField]
+        private Vector2 effectSpawnDirection = Vector2.up;
+        [SerializeField]
         private UniversalEffectSource effectSoursePrototype;
 
         public void ApplyEffect(IEffect effect) =>
@@ -74,6 +76,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         {
             UniversalEffectSource effectSource = Instantiate(effectSoursePrototype, EffectSourceParent.Instance);
             effectSource.transform.position = transform.position + transform.TransformVector((Vector3)effectSpawnOffset);
+            effectSource.transform.up = effectSpawnDirection;
             effectSource.Setup(effect);
         }
 
