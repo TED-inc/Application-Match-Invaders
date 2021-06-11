@@ -831,9 +831,10 @@ MonoBehaviour:
     health: 1
     positionLimitXAbs: 50
     maxBulletCount: 5
+    maxChainedKill: 4
     shootAttemtProbability: 0.05
     groupCount: 4
-    gridZize: {x: 17, y: 6}
+    gridSize: {x: 17, y: 6}
     aliveCountToSpeed:
       serializedVersion: 2
       m_Curve:

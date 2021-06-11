@@ -8,22 +8,20 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
     {
         public float Speed => speed;
         public float PositionLimitXAbs => positionLimitXAbs;
-        public KeyCode KeyMoveLeft => KeyCode.A;
-        public KeyCode KeyMoveRight => KeyCode.D;
-        public KeyCode KeyShoot => KeyCode.Space;
+        public IPlayerInput Input => playerInput;
 
         [SerializeField]
         private float speed = 250;
         [SerializeField, Min(0)]
         private float positionLimitXAbs = 900;
+        [SerializeField]
+        private PlayerInputKeyboard playerInput;
     }
 
     public interface IPlayerUnitParams : IUnitFactoryParmsBase
     {
         float Speed { get; } 
         float PositionLimitXAbs { get; }
-        KeyCode KeyMoveLeft { get; }
-        KeyCode KeyMoveRight { get; }
-        KeyCode KeyShoot { get; }
+        IPlayerInput Input { get; }
     }
 }

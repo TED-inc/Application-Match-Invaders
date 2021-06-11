@@ -15,12 +15,10 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 
         private void UpdateMove(float deltaTime)
         {
-            int moveDirection =
-                Input.GetKey(unitParams.KeyMoveLeft) ? -1 :
-                Input.GetKey(unitParams.KeyMoveRight) ? 1 :
-                0;
-
-            Vector2 newPos = unitModel.PostionModel.Position.Value + Vector2.right * moveDirection * deltaTime * unitParams.Speed;
+            Vector2 newPos = unitModel.PostionModel.Position.Value
+                + Vector2.right
+                * unitParams.Input.GetHorizontalInput()
+                * deltaTime * unitParams.Speed;
             float xPos = Mathf.Clamp(newPos.x, -unitParams.PositionLimitXAbs, unitParams.PositionLimitXAbs);
             newPos.x = xPos;
             unitModel.PostionModel.Position.Value = newPos;
@@ -28,7 +26,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 
         private void ShootUpdate()
         {
-            if (Input.GetKey(unitParams.KeyShoot))
+            if (unitParams.Input.GetShootInput())
                 unitModel.WeaponModel.Shoot();
         }
 
