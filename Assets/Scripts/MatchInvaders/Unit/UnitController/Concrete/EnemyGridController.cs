@@ -5,7 +5,8 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 {
     public sealed class EnemyGridController : IUnitsGridController
     {
-        public IReadReactiveProperty<int> AliveCount => aliveCount;
+        public IReadReactiveProperty<int> AliveUnitsCount => aliveCount;
+        public int TotalUnitsCount { get; private set; } = 0;
 
         private readonly IReactiveProperty<int> aliveCount = new ReactivePropertyInt(0);
         private readonly IUnitAtGrid[,] grid;
@@ -15,11 +16,12 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         public void AddUnit(IUnitAtGrid unit)
         {
             if (grid[unit.IndexX, unit.IndexY] != null)
-                throw new ArithmeticException("unit already added");
+                throw new ArithmeticException("unit already added to this cell");
 
             grid[unit.IndexX, unit.IndexY] = unit;
             unit.OnDeathFromEffect += OnUnitDeathFromEffect;
             aliveCount.SetWithoutNotify(aliveCount.Value + 1);
+            TotalUnitsCount++;
         }
 
         private void OnUnitDeathFromEffect(IUnitAtGrid unit)
@@ -95,6 +97,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
                 }
             
             aliveCount.SetWithoutNotify(0);
+            TotalUnitsCount = 0;
         }
 
         public EnemyGridController(IEnemyUnitParams unitParams)
@@ -107,7 +110,8 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 
     public interface IUnitsGridController
     {
-        IReadReactiveProperty<int> AliveCount { get; }
+        int TotalUnitsCount { get; }
+        IReadReactiveProperty<int> AliveUnitsCount { get; }
         void AddUnit(IUnitAtGrid unit);
         void UpdateShootingAbility();
         void Reset();

@@ -824,17 +824,90 @@ MonoBehaviour:
     health: 3
     speed: 250
     positionLimitXAbs: 900
+    playerInput:
+      keyMoveLeft: 97
+      keyMoveRight: 100
+      keyShoot: 32
   enemysParams:
     parent: {fileID: 1353151074}
     viewPrototype: {fileID: -4742730970724985080, guid: 996e0edf192e4e542885a825543fd062,
       type: 3}
     health: 1
-    positionLimitXAbs: 50
+    positionByTime:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5
+        value: 50
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 50
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 2
+        value: -50
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 2.5
+        value: -50
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 3
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 4
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     maxBulletCount: 5
     maxChainedKill: 4
-    shootAttemtProbability: 0.05
+    shootPerSecProbability: 0.05
     groupCount: 4
     gridSize: {x: 17, y: 6}
+    cellSize: {x: 100, y: 100}
     aliveCountToSpeed:
       serializedVersion: 2
       m_Curve:
@@ -883,7 +956,6 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    layoutGroup: {fileID: 1353151075}
 --- !u!4 &1161636574
 Transform:
   m_ObjectHideFlags: 0
@@ -966,8 +1038,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -660}
-  m_SizeDelta: {x: 1750, y: 600}
+  m_AnchoredPosition: {x: 0, y: -310}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1353151075
 MonoBehaviour:

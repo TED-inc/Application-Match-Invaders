@@ -1,6 +1,6 @@
 ﻿using System;
-using UnityEngine;
 using TEDinc.MatchInvaders.Effect;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace TEDinc.MatchInvaders.Unit.Concrete
@@ -17,13 +17,21 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         private static int shootedCount = 0;
 
         private readonly IEnemyUnitParams unitParams;
+        private readonly IUnitsGridController gridController;
+
+        private readonly Vector2 startPos;
+        private readonly float moveDelay;
+
         private new IEnemyUnitModel unitModel;
         private bool canBeKilledByGrid = true;
 
+        private float timeFromStart = 0f;
+
         public override void Update(float deltaTime)
         {
-            // TODO : move
             ShootUpdate(deltaTime);
+            UpdateMove();
+            timeFromStart += deltaTime * unitParams.SpeedByAlivePercent((float)gridController.AliveUnitsCount.Value / gridController.TotalUnitsCount); ;
         }
 
         private void ShootUpdate(float deltaTime)
@@ -35,6 +43,15 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
                 unitModel.WeaponModel.Shoot();
             }
         }
+
+        private void UpdateMove()
+        {
+            float moveTime = Mathf.Max(0f, timeFromStart - moveDelay);
+            unitModel.PostionModel.Position.Value = 
+                startPos
+                + Vector2.right * unitParams.GetPosOverTime(moveTime);
+        }
+
 
         public override void Setup(IUnitModel unitModel)
         {
@@ -82,11 +99,14 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             }
         }
 
-        public EnemyUnitController(IEnemyUnitParams unitParams, int x, int y)
+        public EnemyUnitController(IEnemyUnitParams unitParams, IUnitsGridController gridController, int x, int y)
         {
             this.unitParams = unitParams;
+            this.gridController = gridController;
             IndexX = x;
             IndexY = y;
+            startPos = unitParams.CellSize * new Vector2(x - unitParams.GridSizeX / 2f, y - unitParams.GridSizeY / 2f);
+            moveDelay = unitParams.MoveStartDelayByLine(y);
         }
     }
 
