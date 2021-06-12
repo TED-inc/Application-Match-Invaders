@@ -104,7 +104,6 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         {
             grid = new IUnitAtGrid[unitParams.GridSizeX, unitParams.GridSizeY];
             this.unitParams = unitParams;
-            aliveCount.OnChange += (i) => UnityEngine.Debug.LogError("EnemysAlive " + i);
         }
     }
 

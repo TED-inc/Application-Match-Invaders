@@ -16,7 +16,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         public Vector2 CellSize => cellSize;
 
         [SerializeField]
-        private AnimationCurve positionByTime = new AnimationCurve(
+        private AnimationCurve xPosByTime = new AnimationCurve(
             new Keyframe(0f, 0f),
             new Keyframe(0.5f, 50f),
             new Keyframe(1f, 50f),
@@ -24,6 +24,11 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             new Keyframe(2.5f, -50f),
             new Keyframe(3f, 0f),
             new Keyframe(4f, 0f));
+        [SerializeField]
+        private AnimationCurve yPosByTime = new AnimationCurve(
+            new Keyframe(0f, 0f),
+            new Keyframe(8f, 0f),
+            new Keyframe(10f, -80f));
 
         [Header("Shooting")]
         [SerializeField, Min(0f)]
@@ -52,8 +57,20 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         public float MoveStartDelayByLine(int lineNumber) =>
             lineIndexToMoveDelay.Evaluate(lineNumber);
 
-        public float GetPosOverTime(float f) =>
-            positionByTime.Evaluate(f % positionByTime.keys[positionByTime.length - 1].time);
+        public Vector2 GetRealtivePosOverTime(float t)
+        {
+            Keyframe xLastFrame = xPosByTime.keys[xPosByTime.length - 1];
+            Keyframe yLastFrame = yPosByTime.keys[yPosByTime.length - 1];
+
+            float xTimeStep = t % xLastFrame.time;
+            float yTimeStep = t % yLastFrame.time;
+            float yFullStepCount = (t - yTimeStep) / yLastFrame.time;
+
+            return new Vector2(
+                xPosByTime.Evaluate(xTimeStep),
+                yPosByTime.Evaluate(yTimeStep) + yLastFrame.value * yFullStepCount
+                );
+        }
     }
 
     public interface IEnemyUnitParams : IUnitFactoryParmsBase, IGridParams, IEnemyGrid
@@ -62,7 +79,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         float ShootAttemtProbability { get; }
         float SpeedByAlivePercent(float p);
         float MoveStartDelayByLine(int lineNumber);
-        float GetPosOverTime(float f);
+        Vector2 GetRealtivePosOverTime(float t);
     }
 
     public interface IEnemyGrid

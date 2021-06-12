@@ -25,13 +25,13 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         private new IEnemyUnitModel unitModel;
         private bool canBeKilledByGrid = true;
 
-        private float timeFromStart = 0f;
+        private float timeFromStartScaled = 0f;
 
         public override void Update(float deltaTime)
         {
             ShootUpdate(deltaTime);
             UpdateMove();
-            timeFromStart += deltaTime * unitParams.SpeedByAlivePercent((float)gridController.AliveUnitsCount.Value / gridController.TotalUnitsCount); ;
+            timeFromStartScaled += deltaTime * unitParams.SpeedByAlivePercent((float)gridController.AliveUnitsCount.Value / gridController.TotalUnitsCount); ;
         }
 
         private void ShootUpdate(float deltaTime)
@@ -46,10 +46,10 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 
         private void UpdateMove()
         {
-            float moveTime = Mathf.Max(0f, timeFromStart - moveDelay);
+            float moveTime = Mathf.Max(0f, timeFromStartScaled - moveDelay);
             unitModel.PostionModel.Position.Value = 
                 startPos
-                + Vector2.right * unitParams.GetPosOverTime(moveTime);
+                + unitParams.GetRealtivePosOverTime(moveTime);
         }
 
 
