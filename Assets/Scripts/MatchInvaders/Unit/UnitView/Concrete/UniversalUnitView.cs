@@ -74,7 +74,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 
         private void OnModelSpawnEffect(IEffect effect)
         {
-            UniversalEffectSource effectSource = Instantiate(effectSoursePrototype, EffectSourceParent.Instance);
+            UniversalEffectSource effectSource = Instantiate(effectSoursePrototype, EffectSourceParams.Instance.transform);
             effectSource.transform.position = transform.position + transform.TransformVector((Vector3)effectSpawnOffset);
             effectSource.transform.up = effectSpawnDirection;
             effectSource.Setup(effect);

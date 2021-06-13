@@ -4,6 +4,7 @@ namespace TEDinc.MatchInvaders.GameFlow
 {
     public interface ILevelRunner
     {
+        IScoreSystem ScoreSystem { get; }
         IReadReactiveProperty<LevelState> CurrentLevelState { get; }
         void LevelStart();
         void LevelEnd();

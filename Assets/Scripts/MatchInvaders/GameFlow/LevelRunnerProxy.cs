@@ -8,6 +8,7 @@ namespace TEDinc.MatchInvaders.GameFlow
     public sealed class LevelRunnerProxy : MonoBehaviour, ILevelRunner
     {
         public IReadReactiveProperty<LevelState> CurrentLevelState => levelRunner.CurrentLevelState;
+        public IScoreSystem ScoreSystem => levelRunner.ScoreSystem;
 
         [SerializeField]
         private PlayerUnitParams playerParams;
@@ -18,13 +19,8 @@ namespace TEDinc.MatchInvaders.GameFlow
 
         private ILevelRunner levelRunner;
 
-        public void LevelStart()
-        {
-            if (levelRunner == null)
-                levelRunner = new LevelRunner(playerParams, enemysParams, protectorParams);
-            CurrentLevelState.OnChange += DestoySpawnedUnits;
+        public void LevelStart() =>
             levelRunner.LevelStart();
-        }
 
         public void LevelEnd() =>
             levelRunner.LevelEnd();
@@ -38,16 +34,26 @@ namespace TEDinc.MatchInvaders.GameFlow
         public void LevelUpdate(float deltaTime) =>
             levelRunner.LevelUpdate(deltaTime);
 
+
+        private void Awake()
+        {
+            levelRunner = new LevelRunner(playerParams, enemysParams, protectorParams);
+            CurrentLevelState.OnChange += DestoySpawnedUnits;
+        }
+
         private void Start() =>
             LevelStart();
 
         private void Update() =>
             LevelUpdate(Time.deltaTime);
 
+        private void OnApplicationQuit() =>
+            LevelEnd();
+
         private void DestoySpawnedUnits(LevelState levelState)
         {
             if (levelState == LevelState.WaitForStart)
-                foreach (var parent in new[] { playerParams.Parent, enemysParams.Parent, protectorParams.Parent, EffectSourceParent.Instance })
+                foreach (var parent in new[] { playerParams.Parent, enemysParams.Parent, protectorParams.Parent, EffectSourceParams.Instance.transform })
                     for (int i = 0; i < parent.childCount; i++)
                         Destroy(parent.GetChild(i).gameObject);
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections.Generic;
 using TEDinc.MatchInvaders.Unit;
 using TEDinc.MatchInvaders.Unit.Concrete;
 using TEDinc.MatchInvaders.UnitFactory;
@@ -10,6 +11,7 @@ namespace TEDinc.MatchInvaders.GameFlow
     public sealed class LevelRunner : ILevelRunner
     {
         public IReadReactiveProperty<LevelState> CurrentLevelState => levelState;
+        public IScoreSystem ScoreSystem { get; private set; }
 
         private readonly IUnitFactory[] unitFactories;
         private readonly List<IReadUnitController> unitControllers = new List<IReadUnitController>();
@@ -34,6 +36,7 @@ namespace TEDinc.MatchInvaders.GameFlow
         {
             unitControllers.Clear();
             levelState.Value = LevelState.WaitForStart;
+            SaveScoreSystem();
         }
 
         public void LevelReStart()
@@ -58,11 +61,18 @@ namespace TEDinc.MatchInvaders.GameFlow
 
         public LevelRunner(IPlayerUnitParams playerParams, IEnemyUnitParams enemyParams, IProtectorUnitParams protectorParams)
         {
+            IUnitsGridController enemysGridController = new EnemyGridController(enemyParams);
+            ScoreSystem = new ScoreSystem(PlayerPrefs.GetInt(nameof(GameFlow.ScoreSystem))); // TODO: change to persistent save
+            ScoreSystem.Setup(new[] { new EnemyChainDeathScoreChanger(enemysGridController) });
+           
             unitFactories = new IUnitFactory[] { 
                 new PlayerUnitFactory(playerParams),
-                new EnemyUnitFactory(new EnemyGridController(enemyParams), enemyParams),
+                new EnemyUnitFactory(enemysGridController, enemyParams),
                 new ProtectorUnitFactory(protectorParams),
             };
         }
+
+        private void SaveScoreSystem() =>
+            PlayerPrefs.SetInt(nameof(GameFlow.ScoreSystem), ScoreSystem.HighScore.Value); // TODO: change to persistent save
     }
 }
