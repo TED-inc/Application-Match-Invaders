@@ -3,7 +3,7 @@ using TEDinc.MatchInvaders.Unit.Concrete;
 using TEDinc.MatchInvaders.Effect.Concrete;
 using TEDinc.Utils.ReactiveProperty;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlow.Concrete
 {
     public sealed class LevelRunnerProxy : MonoBehaviour, ILevelRunner
     {
@@ -11,22 +11,33 @@ namespace TEDinc.MatchInvaders.GameFlow
         public IScoreSystem ScoreSystem => levelRunner.ScoreSystem;
 
         [SerializeField]
-        private PlayerUnitParams playerParams;
+        private LevelParamsSO levelParams;
         [SerializeField]
-        private EnemyUnitParams enemysParams;
+        private Transform playerParent;
         [SerializeField]
-        private ProtectorUnitParams protectorParams;
+        private Transform enemysParent;
+        [SerializeField]
+        private Transform protectorParent;
 
-        private ILevelRunner levelRunner;
+        private ILevelRunner levelRunner = new LevelRunner();
 
         public void LevelStart() =>
-            levelRunner.LevelStart();
+            LevelStart(levelParams);
+
+        public void LevelStart(ILevelParams levelParams)
+        {
+            levelParams.SetParentsToParams(playerParent, enemysParent, protectorParent);
+            levelRunner.LevelStart(levelParams);
+        }
 
         public void LevelEnd() =>
             levelRunner.LevelEnd();
 
-        public void LevelReStart() =>
-            levelRunner.LevelReStart();
+        public void LevelReStart()
+        {
+            LevelEnd();
+            LevelStart(levelParams);
+        }
 
         public void LevelSwithPause() =>
             levelRunner.LevelSwithPause();
@@ -37,12 +48,9 @@ namespace TEDinc.MatchInvaders.GameFlow
 
         private void Awake()
         {
-            levelRunner = new LevelRunner(playerParams, enemysParams, protectorParams);
             CurrentLevelState.OnChange += DestoySpawnedUnits;
+            ScoreSystem.Load();
         }
-
-        private void Start() =>
-            LevelStart();
 
         private void Update() =>
             LevelUpdate(Time.deltaTime);
@@ -53,7 +61,7 @@ namespace TEDinc.MatchInvaders.GameFlow
         private void DestoySpawnedUnits(LevelState levelState)
         {
             if (levelState == LevelState.WaitForStart)
-                foreach (var parent in new[] { playerParams.Parent, enemysParams.Parent, protectorParams.Parent, EffectSourceParams.Instance.transform })
+                foreach (var parent in new[] { playerParent, enemysParent, protectorParent, EffectSourceParams.Instance.transform })
                     for (int i = 0; i < parent.childCount; i++)
                         Destroy(parent.GetChild(i).gameObject);
         }

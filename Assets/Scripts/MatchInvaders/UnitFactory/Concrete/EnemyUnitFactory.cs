@@ -9,7 +9,7 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
     public sealed class EnemyUnitFactory : IUnitFactory<IEnemyUnitModel, IEnemyUnitController>
     {
         private readonly Random random = new Random();
-        private readonly IUnitsGridController unitsGridController;
+        private readonly IEnemyUnitGridController unitsGridController;
         private readonly IEnemyUnitParams unitParams;
         private int spawnedCount = 0;
         private bool isComplete = false;
@@ -65,7 +65,7 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
         }
 
 
-        public EnemyUnitFactory(IUnitsGridController unitsGridController, IEnemyUnitParams unitParams)
+        public EnemyUnitFactory(IEnemyUnitGridController unitsGridController, IEnemyUnitParams unitParams)
         {
             this.unitsGridController = unitsGridController;
             this.unitParams = unitParams;

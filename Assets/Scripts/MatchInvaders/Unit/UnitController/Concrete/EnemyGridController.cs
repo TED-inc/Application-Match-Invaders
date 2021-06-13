@@ -1,17 +1,19 @@
 ﻿using System;
+using TEDinc.MatchInvaders.GameFlow;
 using TEDinc.Utils.ReactiveProperty;
 
 namespace TEDinc.MatchInvaders.Unit.Concrete
 {
-    public sealed class EnemyGridController : IUnitsGridController
+    public sealed class EnemyGridController : IEnemyUnitGridController
     {
         public IReadReactiveProperty<int> AliveUnitsCount => aliveCount;
         public int TotalUnitsCount { get; private set; } = 0;
+        public int ShootedNotFiredCount { get; set; }
 
         private readonly IReactiveProperty<int> aliveCount = new ReactivePropertyInt(0);
-        private readonly IUnitAtGrid[,] grid;
         private readonly IEnemyUnitParams unitParams;
-        
+        private IUnitAtGrid[,] grid;
+
 
         public void AddUnit(IUnitAtGrid unit)
         {
@@ -95,16 +97,31 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
                         grid[x, y].OnDeathFromEffect -= OnUnitDeathFromEffect;
                     grid[x, y] = null;
                 }
-            
+
+            grid = new IUnitAtGrid[unitParams.GridSizeX, unitParams.GridSizeY];
             aliveCount.SetWithoutNotify(0);
             TotalUnitsCount = 0;
+            ShootedNotFiredCount = 0;
         }
 
-        public EnemyGridController(IEnemyUnitParams unitParams)
+        public EnemyGridController(IEnemyUnitParams unitParams, ILevelResultSystem levelResultSystem)
         {
             grid = new IUnitAtGrid[unitParams.GridSizeX, unitParams.GridSizeY];
             this.unitParams = unitParams;
+            AliveUnitsCount.OnChange += TryComplete;
+
+            void TryComplete(int count)
+            {
+                if (count <= 0)
+                    levelResultSystem.CompleteLevel();
+            }
         }
+    }
+
+    public interface IEnemyUnitGridController : IUnitsGridController
+    {
+        int ShootedNotFiredCount { get; set; }
+        void UpdateShootingAbility();
     }
 
     public interface IUnitsGridController
@@ -112,7 +129,6 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         int TotalUnitsCount { get; }
         IReadReactiveProperty<int> AliveUnitsCount { get; }
         void AddUnit(IUnitAtGrid unit);
-        void UpdateShootingAbility();
         void Reset();
     }
 }

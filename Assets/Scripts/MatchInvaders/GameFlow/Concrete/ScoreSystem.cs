@@ -1,7 +1,8 @@
 ﻿using System;
+using UnityEngine;
 using TEDinc.Utils.ReactiveProperty;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlow.Concrete
 {
     public sealed class ScoreSystem : IScoreSystem
     {
@@ -16,6 +17,7 @@ namespace TEDinc.MatchInvaders.GameFlow
         {
             currentScore.Value += v;
             highScore.Value = Math.Max(highScore.Value, currentScore.Value);
+            PlayerPrefs.SetInt(nameof(Concrete.ScoreSystem), highScore.Value); // TODO: change to persistent save
         }
 
         public void ResetCurrentScore()
@@ -30,9 +32,10 @@ namespace TEDinc.MatchInvaders.GameFlow
             this.scoreChangers = scoreChangers;
             foreach (IScoreChanger scoreChanger in scoreChangers)
                 scoreChanger.OnScoreChanged += AddScore;
+            
         }
 
-        public ScoreSystem(int highScore) =>
-            this.highScore.SetWithoutNotify(highScore);
+        public void Load() =>
+            highScore.SetWithoutNotify(PlayerPrefs.GetInt(nameof(ScoreSystem))); // TODO: change to persistent save
     }
 }

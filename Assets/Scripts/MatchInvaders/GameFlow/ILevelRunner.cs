@@ -1,4 +1,5 @@
-﻿using TEDinc.Utils.ReactiveProperty;
+﻿using TEDinc.MatchInvaders.Unit.Concrete;
+using TEDinc.Utils.ReactiveProperty;
 
 namespace TEDinc.MatchInvaders.GameFlow
 {
@@ -6,9 +7,8 @@ namespace TEDinc.MatchInvaders.GameFlow
     {
         IScoreSystem ScoreSystem { get; }
         IReadReactiveProperty<LevelState> CurrentLevelState { get; }
-        void LevelStart();
+        void LevelStart(ILevelParams levelParams);
         void LevelEnd();
-        void LevelReStart();
         void LevelSwithPause();
         void LevelUpdate(float deltaTime);
     }
@@ -18,5 +18,7 @@ namespace TEDinc.MatchInvaders.GameFlow
         WaitForStart,
         Running,
         Paused,
+        Complete,
+        Failed,
     }
 }

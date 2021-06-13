@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using TEDinc.MatchInvaders.GameFlow;
-using TEDinc.Utils.ReactiveProperty;
+using TEDinc.MatchInvaders.GameFlow.Concrete;
 
 namespace TEDinc.MatchInvaders.Effect.Concrete
 {

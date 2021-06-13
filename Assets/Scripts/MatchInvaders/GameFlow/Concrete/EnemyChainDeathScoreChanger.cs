@@ -1,7 +1,7 @@
 ﻿using System;
 using TEDinc.MatchInvaders.Unit.Concrete;
 
-namespace TEDinc.MatchInvaders.GameFlow
+namespace TEDinc.MatchInvaders.GameFlow.Concrete
 {
     public sealed class EnemyChainDeathScoreChanger : IScoreChanger
     {
@@ -41,10 +41,10 @@ namespace TEDinc.MatchInvaders.GameFlow
         public void OnResetCurrentScore() =>
             currentCount = -1;
 
-        public EnemyChainDeathScoreChanger(IUnitsGridController enemysGridController)
+        public EnemyChainDeathScoreChanger(IUnitsGridController unitsGridController)
         {
-            this.enemysGridController = enemysGridController;
-            enemysGridController.AliveUnitsCount.OnChange += OnAliveUnitsCountChanged;
+            this.enemysGridController = unitsGridController;
+            unitsGridController.AliveUnitsCount.OnChange += OnAliveUnitsCountChanged;
         }
     }
 }

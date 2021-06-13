@@ -2,12 +2,14 @@
 using TEDinc.MatchInvaders.Unit;
 using TEDinc.MatchInvaders.Unit.Concrete;
 using TEDinc.MatchInvaders.Effect.Concrete;
+using TEDinc.MatchInvaders.GameFlow;
 
 namespace TEDinc.MatchInvaders.UnitFactory.Concrete
 {
     public sealed class PlayerUnitFactory : IUnitFactory<IPlayerUnitModel, IPlayerUnitController>
     {
         private readonly IPlayerUnitParams unitParams;
+        private readonly ILevelResultSystem levelResultSystem;
         private bool isPlayerSpawned = false;
 
         public IPlayerUnitController Next()
@@ -24,6 +26,7 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
         {
             isPlayerSpawned = true;
             IPlayerUnitController controller = new PlayerUnitController(unitParams);
+            model.HealthModel.IsAlive.OnChange += (b) => levelResultSystem.FailLevel();
             controller.Setup(model);
             GameObject.Instantiate(unitParams.ViewPrototype, unitParams.Parent).Setup(model, controller);
             return controller;
@@ -41,7 +44,10 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
         public void Reset() =>
             isPlayerSpawned = false;
 
-        public PlayerUnitFactory(IPlayerUnitParams unitParams) =>
+        public PlayerUnitFactory(IPlayerUnitParams unitParams, ILevelResultSystem levelResultSystem)
+        {
             this.unitParams = unitParams;
+            this.levelResultSystem = levelResultSystem;
+        }
     }
 }

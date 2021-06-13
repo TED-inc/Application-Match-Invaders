@@ -8,8 +8,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         public override int GroupId => unitModel.GroupModel.GroupId;
         public override bool IsAlive => unitModel.HealthModel.IsAlive.Value;
 
-        private static int shootedCount = 0;
-
+        private readonly IEnemyUnitGridController enemyGridController;
         private readonly IEnemyUnitParams unitParams;
         private readonly float moveDelay;
 
@@ -27,7 +26,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         private void ShootUpdate(float deltaTime)
         {
             if (CanShoot
-                && shootedCount < unitParams.MaxBulletCount
+                && enemyGridController.ShootedNotFiredCount < unitParams.MaxBulletCount
                 && Random.Range(0f, 1f) <= unitParams.ShootAttemtProbability * deltaTime)
             {
                 unitModel.WeaponModel.Shoot();
@@ -54,12 +53,12 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
 
         private void OnWeaponShooted(IEffect effect)
         {
-            shootedCount++;
+            enemyGridController.ShootedNotFiredCount++;
             effect.IsFired.OnChange += OnEffectFired;
 
             void OnEffectFired(bool isFired)
             {
-                shootedCount--;
+                enemyGridController.ShootedNotFiredCount--;
                 effect.IsFired.OnChange -= OnEffectFired;
             }
         }
@@ -89,10 +88,11 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             }
         }
 
-        public EnemyUnitController(IEnemyUnitParams unitParams, IUnitsGridController gridController, int x, int y) : base(unitParams, gridController, x, y)
+        public EnemyUnitController(IEnemyUnitParams unitParams, IEnemyUnitGridController gridController, int x, int y) : base(unitParams, gridController, x, y)
         {
             this.unitParams = unitParams;
             moveDelay = unitParams.MoveStartDelayByLine(y);
+            enemyGridController = gridController;
         }
     }
 
