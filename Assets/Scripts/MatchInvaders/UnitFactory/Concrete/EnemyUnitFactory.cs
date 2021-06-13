@@ -28,7 +28,11 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
 
         public IEnemyUnitController Next(IEnemyUnitModel model)
         {
-            IEnemyUnitController controller = new EnemyUnitController(unitParams, spawnedCount % unitParams.GridSizeX, spawnedCount / unitParams.GridSizeX);
+            IEnemyUnitController controller = new EnemyUnitController(
+                unitParams, 
+                unitsGridController,
+                spawnedCount % unitParams.GridSizeX, 
+                spawnedCount / unitParams.GridSizeX);
             spawnedCount++;
             controller.Setup(model);
             GameObject.Instantiate(unitParams.ViewPrototype, unitParams.Parent).Setup(model, controller);
@@ -49,21 +53,14 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
             if (checkCompelte != isComplete)
             {
                 isComplete = checkCompelte;
-                CoroutineRunner.Instance.StartCoroutine(DisableGridLayout());
                 unitsGridController.UpdateShootingAbility();
             }
             return checkCompelte;
 
-            IEnumerator DisableGridLayout()
-            {
-                yield return new WaitForEndOfFrame();
-                unitParams.GridLayout.enabled = false;
-            }
         }
         public void Reset()
         {
             spawnedCount = 0;
-            unitParams.GridLayout.enabled = true;
             isComplete = false;
             unitsGridController.Reset();
         }
@@ -71,7 +68,6 @@ namespace TEDinc.MatchInvaders.UnitFactory.Concrete
 
         public EnemyUnitFactory(IUnitsGridController unitsGridController, IEnemyUnitParams unitParams)
         {
-            unitParams.GridLayout.enabled = true;
             this.unitsGridController = unitsGridController;
             this.unitParams = unitParams;
         }

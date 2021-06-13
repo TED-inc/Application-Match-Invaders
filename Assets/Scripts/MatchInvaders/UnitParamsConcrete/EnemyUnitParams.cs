@@ -7,24 +7,28 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
     [Serializable]
     public class EnemyUnitParams : UnitParmsBase, IEnemyUnitParams
     {
-        public float PositionLimitXAbs => positionLimitXAbs;
         public int MaxBulletCount => maxBulletCount;
         public float ShootAttemtProbability => shootPerSecProbability;
         public int GridSizeX => gridSize.x;
         public int GridSizeY => gridSize.y;
         public int GroupCount => groupCount;
-        public Behaviour GridLayout => layoutGroup;
         public int MaxChindedKill => maxChainedKill;
+        public Vector2 CellSize => cellSize;
 
-        [SerializeField, Min(0f)]
-        private float positionLimitXAbs = 50;
         [SerializeField]
-        private AnimationCurve positionByTime = new AnimationCurve(
+        private AnimationCurve xPosByTime = new AnimationCurve(
             new Keyframe(0f, 0f),
-            new Keyframe(0.25f, 1f),
-            new Keyframe(0.5f, 0f),
-            new Keyframe(0.75f, -1f),
-            new Keyframe(1f, 0f));
+            new Keyframe(0.5f, 50f),
+            new Keyframe(1f, 50f),
+            new Keyframe(2f, -50f),
+            new Keyframe(2.5f, -50f),
+            new Keyframe(3f, 0f),
+            new Keyframe(4f, 0f));
+        [SerializeField]
+        private AnimationCurve yPosByTime = new AnimationCurve(
+            new Keyframe(0f, 0f),
+            new Keyframe(8f, 0f),
+            new Keyframe(10f, -80f));
 
         [Header("Shooting")]
         [SerializeField, Min(0f)]
@@ -40,31 +44,42 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
         [SerializeField]
         private Vector2Int gridSize = new Vector2Int(17, 6);
         [SerializeField]
-        private AnimationCurve aliveCountToSpeed = new AnimationCurve(new Keyframe(0f, 100f), new Keyframe(100f, 30f));
+        private Vector2 cellSize = new Vector2(100f, 100f);
+        [SerializeField]
+        private AnimationCurve aliveCountToSpeed = new AnimationCurve(new Keyframe(0f, 3f), new Keyframe(1f, 1f));
         [SerializeField]
         private AnimationCurve lineIndexToMoveDelay = new AnimationCurve(new Keyframe(0f, 3f), new Keyframe(6f, 10f));
-        [SerializeField]
-        private LayoutGroup layoutGroup;
 
 
-        public float SpeedByCount(int aliveCount) =>
-            aliveCountToSpeed.Evaluate(aliveCount);
+        public float SpeedByAlivePercent(float p) =>
+            aliveCountToSpeed.Evaluate(p);
 
         public float MoveStartDelayByLine(int lineNumber) =>
             lineIndexToMoveDelay.Evaluate(lineNumber);
 
-        public float XPosByTimeStep(float f) =>
-            positionByTime.Evaluate(f);
+        public Vector2 GetRealtivePosOverTime(float t)
+        {
+            Keyframe xLastFrame = xPosByTime.keys[xPosByTime.length - 1];
+            Keyframe yLastFrame = yPosByTime.keys[yPosByTime.length - 1];
+
+            float xTimeStep = t % xLastFrame.time;
+            float yTimeStep = t % yLastFrame.time;
+            float yFullStepCount = (t - yTimeStep) / yLastFrame.time;
+
+            return new Vector2(
+                xPosByTime.Evaluate(xTimeStep),
+                yPosByTime.Evaluate(yTimeStep) + yLastFrame.value * yFullStepCount
+                );
+        }
     }
 
     public interface IEnemyUnitParams : IUnitFactoryParmsBase, IGridParams, IEnemyGrid
     {
-        float PositionLimitXAbs { get; }
         int MaxBulletCount { get; }
         float ShootAttemtProbability { get; }
-        float SpeedByCount(int aliveCount);
+        float SpeedByAlivePercent(float p);
         float MoveStartDelayByLine(int lineNumber);
-        float XPosByTimeStep(float f);
+        Vector2 GetRealtivePosOverTime(float t);
     }
 
     public interface IEnemyGrid
@@ -77,6 +92,6 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
     {
         int GridSizeX { get; }
         int GridSizeY { get; }
-        Behaviour GridLayout { get; }
+        Vector2 CellSize { get; }
     }
 }
