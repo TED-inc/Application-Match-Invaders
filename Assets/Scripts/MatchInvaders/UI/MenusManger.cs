@@ -22,6 +22,9 @@ namespace TEDinc.MatchInvaders.UI
         private UnityEventBool onSwitchToFailedWindow;
 
 
+        public void ExitGame() =>
+            Application.Quit();
+
         private void Start()
         {
             OnSwitchLevelState(levelRunner.CurrentLevelState.Value);
