@@ -1,6 +1,6 @@
 ﻿namespace TEDinc.MatchInvaders.Unit.Concrete
 {
-    public class EnemyUnitModel : UnitModelBase, IEnemyUnitModel
+    public sealed class EnemyUnitModel : UnitModelBase, IEnemyUnitModel
     {
         public IUnitPostionModel PostionModel => GetSubModel<IUnitPostionModel>(UnitSubModelType.Position);
         public IUnitHealthModel HealthModel => GetSubModel<IUnitHealthModel>(UnitSubModelType.Health);

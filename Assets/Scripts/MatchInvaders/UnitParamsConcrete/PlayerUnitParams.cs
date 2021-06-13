@@ -8,13 +8,17 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
     {
         public float Speed => speed;
         public float PositionLimitXAbs => positionLimitXAbs;
+        public float MinShootDealy => minShootDealy;
         public IPlayerInput Input => playerInput;
 
+
         [SerializeField]
-        private float speed = 250;
-        [SerializeField, Min(0)]
-        private float positionLimitXAbs = 900;
+        private float speed = 250f;
+        [SerializeField, Min(0f)]
+        private float positionLimitXAbs = 900f;
         [SerializeField]
+        private float minShootDealy = 0.8f;
+        [SerializeField, Min(0f)]
         private PlayerInputKeyboard playerInput;
     }
 
@@ -22,6 +26,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
     {
         float Speed { get; } 
         float PositionLimitXAbs { get; }
+        float MinShootDealy { get; }
         IPlayerInput Input { get; }
     }
 }

@@ -56,11 +56,12 @@ namespace TEDinc.MatchInvaders.GameFlow
                 levelState.Value = LevelState.Running;
         }
 
-        public LevelRunner(IPlayerUnitParams playerParams, IEnemyUnitParams enemyParams)
+        public LevelRunner(IPlayerUnitParams playerParams, IEnemyUnitParams enemyParams, IProtectorUnitParams protectorParams)
         {
             unitFactories = new IUnitFactory[] { 
                 new PlayerUnitFactory(playerParams),
                 new EnemyUnitFactory(new EnemyGridController(enemyParams), enemyParams),
+                new ProtectorUnitFactory(protectorParams),
             };
         }
     }

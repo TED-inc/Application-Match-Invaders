@@ -1,30 +1,20 @@
-﻿using System;
-using TEDinc.MatchInvaders.Effect;
+﻿using TEDinc.MatchInvaders.Effect;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace TEDinc.MatchInvaders.Unit.Concrete
 {
-    public sealed class EnemyUnitController : BaseUnitController, IEnemyUnitController
+    public sealed class EnemyUnitController : BaseUnitAtGridController, IEnemyUnitController
     {
-        public event Action<IUnitAtGrid> OnDeathFromEffect = ActionExt.GetNullObject<IUnitAtGrid>();
-        public int GroupId => unitModel.GroupModel.GroupId;
-        public bool IsAlive => unitModel.HealthModel.IsAlive.Value;
-        public int IndexX { get; private set; }
-        public int IndexY { get; private set; }
-        public bool CanShoot { get; set; }
+        public override int GroupId => unitModel.GroupModel.GroupId;
+        public override bool IsAlive => unitModel.HealthModel.IsAlive.Value;
 
         private static int shootedCount = 0;
 
         private readonly IEnemyUnitParams unitParams;
-        private readonly IUnitsGridController gridController;
-
-        private readonly Vector2 startPos;
         private readonly float moveDelay;
 
         private new IEnemyUnitModel unitModel;
         private bool canBeKilledByGrid = true;
-
         private float timeFromStartScaled = 0f;
 
         public override void Update(float deltaTime)
@@ -58,8 +48,8 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             base.Setup(unitModel);
             this.unitModel = (IEnemyUnitModel)unitModel;
             this.unitModel.HealthModel.IsAlive.OnChange += OnDeath;
-            canBeKilledByGrid = this.unitModel.HealthModel.IsAlive.Value;
             this.unitModel.WeaponModel.OnSpawnEffect += OnWeaponShooted;
+            canBeKilledByGrid = this.unitModel.HealthModel.IsAlive.Value;
         }
 
         private void OnWeaponShooted(IEffect effect)
@@ -74,7 +64,7 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
             }
         }
 
-        bool IUnitAtGrid.KillByGrid()
+        public override bool KillByGrid()
         {
             if (!canBeKilledByGrid)
                 return false;
@@ -94,32 +84,17 @@ namespace TEDinc.MatchInvaders.Unit.Concrete
                 if (canBeKilledByGrid)
                 {
                     canBeKilledByGrid = false;
-                    OnDeathFromEffect.Invoke(this);
+                    InvokeOnDeathFromEffect();
                 }
             }
         }
 
-        public EnemyUnitController(IEnemyUnitParams unitParams, IUnitsGridController gridController, int x, int y)
+        public EnemyUnitController(IEnemyUnitParams unitParams, IUnitsGridController gridController, int x, int y) : base(unitParams, gridController, x, y)
         {
             this.unitParams = unitParams;
-            this.gridController = gridController;
-            IndexX = x;
-            IndexY = y;
-            startPos = unitParams.CellSize * new Vector2(x - unitParams.GridSizeX / 2f, y - unitParams.GridSizeY / 2f);
             moveDelay = unitParams.MoveStartDelayByLine(y);
         }
     }
 
     public interface IEnemyUnitController : IUnitController, IUnitAtGrid { }
-
-    public interface IUnitAtGrid
-    {
-        event Action<IUnitAtGrid> OnDeathFromEffect;
-        bool IsAlive { get; }
-        int IndexX { get; }
-        int IndexY { get; }
-        bool CanShoot { get; set; }
-        int GroupId { get; }
-        bool KillByGrid();
-    }
 }

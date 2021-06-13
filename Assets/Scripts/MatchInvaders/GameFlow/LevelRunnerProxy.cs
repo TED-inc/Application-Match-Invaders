@@ -13,13 +13,15 @@ namespace TEDinc.MatchInvaders.GameFlow
         private PlayerUnitParams playerParams;
         [SerializeField]
         private EnemyUnitParams enemysParams;
+        [SerializeField]
+        private ProtectorUnitParams protectorParams;
 
         private ILevelRunner levelRunner;
 
         public void LevelStart()
         {
             if (levelRunner == null)
-                levelRunner = new LevelRunner(playerParams, enemysParams);
+                levelRunner = new LevelRunner(playerParams, enemysParams, protectorParams);
             CurrentLevelState.OnChange += DestoySpawnedUnits;
             levelRunner.LevelStart();
         }
@@ -45,7 +47,7 @@ namespace TEDinc.MatchInvaders.GameFlow
         private void DestoySpawnedUnits(LevelState levelState)
         {
             if (levelState == LevelState.WaitForStart)
-                foreach (var parent in new[] { playerParams.Parent, enemysParams.Parent, EffectSourceParent.Instance })
+                foreach (var parent in new[] { playerParams.Parent, enemysParams.Parent, protectorParams.Parent, EffectSourceParent.Instance })
                     for (int i = 0; i < parent.childCount; i++)
                         Destroy(parent.GetChild(i).gameObject);
         }
